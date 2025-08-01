@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografik: Gara'jal der Geisterbinder (10-Spieler)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D1B2A;
+            color: #E0E1DD;
+        }
+        .card {
+            background-color: #1B263B;
+            border: 1px solid #415A77;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .header-icon {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+        .flow-step {
+            background-color: #0D1B2A;
+            border: 1px solid #415A77;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            flex: 1;
+        }
+        .flow-arrow {
+            color: #778DA9;
+            font-size: 2rem;
+            align-self: center;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white mb-2">Gara'jal der Geisterbinder</h1>
+            <p class="text-xl text-[#778DA9]">Ein visueller Guide zu Geisterwelt, Totems & Voodoo</p>
+        </header>
+
+        <main class="space-y-12">
+            
+            <article id="mechanics" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Die Kernmechaniken des Kampfes</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Gara'jal zwingt den Raid, sich auf zwei Ebenen zu beweisen: der Welt der Lebenden und der Geisterwelt. Gleichzeitig müssen gefährliche Voodoopuppen und Totems beseitigt werden.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="p-6 rounded-lg bg-[#0D1B2A]">
+                        <h3 class="text-xl font-semibold text-white mb-2">Die Geisterwelt</h3>
+                        <p class="text-[#778DA9] mb-4">Gara'jal verbannt regelmäßig Spieler in die Geisterwelt, wo sie Adds töten müssen, um zurückzukehren.</p>
+                        <div class="flex items-center justify-center gap-4">
+                            <div class="text-center">
+                                <p class="text-3xl">👻</p>
+                                <p class="text-sm text-white">3 Spieler</p>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="text-center p-3 rounded-lg bg-[#415A77]/50">
+                                <p class="text-3xl">💀</p>
+                                <p class="text-sm text-white">Geisterwelt</p>
+                            </div>
+                             <div class="flow-arrow">→</div>
+                             <div class="text-center">
+                                <p class="text-3xl">⚔️</p>
+                                <p class="text-sm text-white">Adds töten</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 rounded-lg bg-red-900/20 border-2 border-red-500/50">
+                        <h3 class="text-xl font-semibold text-red-300 mb-2">Voodoopuppe</h3>
+                        <p class="text-red-300/80">Verbindet einen Heiler mit einem DD. 50% des Schadens am DD erleidet auch der Heiler. Muss **sofort** vom Heiler gebannt (dispel) werden!</p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="strategy" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Strategie & Prioritäten</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Der Schlüssel zum Sieg ist das schnelle Abarbeiten der Prioritäten. Schaden am Boss ist zweitrangig, solange Mechaniken aktiv sind.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4">Prioritätenliste für DDs</h3>
+                        <p class="text-[#778DA9] mb-4">Die Schadenspriorität ist klar definiert. Haltet euch strikt an diese Reihenfolge, um den Raid am Leben zu halten.</p>
+                        <div class="chart-container">
+                            <canvas id="dpsPriorityChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4">Aufgabenverteilung (10-Spieler)</h3>
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                                <h4 class="font-bold text-lg text-white">🛡️ Tank</h4>
+                                <ul class="list-disc list-inside text-[#778DA9] text-sm mt-2 space-y-1">
+                                    <li>Positioniere Gara'jal in der Mitte des Raumes.</li>
+                                    <li>Ein Tankwechsel ist nicht zwingend erforderlich.</li>
+                                    <li>Sei bereit, defensive Cooldowns zu nutzen, besonders in der Raserei-Phase.</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                                <h4 class="font-bold text-lg text-white">❤️ Heiler</h4>
+                                <ul class="list-disc list-inside text-[#778DA9] text-sm mt-2 space-y-1">
+                                    <li>**Voodoopuppe** ist eure höchste Priorität. Bannt sie sofort von euch selbst.</li>
+                                    <li>Die Spieler in der Geisterwelt erleiden konstanten Schaden und benötigen Heilung.</li>
+                                    <li>Bereitet euch auf die **Raserei**-Phase bei 20% vor. Nutzt hier eure stärksten Cooldowns.</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                                <h4 class="font-bold text-lg text-white">⚔️ DDs</h4>
+                                <ul class="list-disc list-inside text-[#778DA9] text-sm mt-2 space-y-1">
+                                    <li>Wechselt **sofort** auf das **Geistertotem**, wenn es erscheint.</li>
+                                    <li>Spieler in der Geisterwelt: Tötet die **Schattenhaften Günstlinge** schnell.</li>
+                                    <li>Zündet in der **Raserei**-Phase (<20%) Heldentum/Kampfrausch und alle Cooldowns.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article id="heroic" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Heroischer Modus: Koordinierte Rückkehr</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Im heroischen Modus ist die Rückkehr aus der Geisterwelt die größte Herausforderung. Eine unkoordinierte Rückkehr führt zum sofortigen Tod des Raids.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                        <h3 class="font-bold text-lg text-white mb-2">Neue Mechaniken</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><strong class="text-sky-400">Fragment der Seele:</strong> Getötete Adds hinterlassen eine Kugel, die einen Spieler sofort zurückbringt.</li>
+                            <li><strong class="text-red-400">Spirituelle Gegenreaktion:</strong> Jede Rückkehr verursacht Raid-Schaden und hinterlässt einen stapelbaren Heilungs-Debuff.</li>
+                        </ul>
+                        <p class="text-[#778DA9] mt-4">Das bedeutet: Spieler müssen ihre Rückkehr **gestaffelt** (alle 1-2 Sekunden) durchführen, um den Raid nicht zu überlasten.</p>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-xl font-semibold text-white mb-2">Gefahr durch Gegenreaktion</h3>
+                        <p class="text-[#778DA9] mb-4">Dieses Diagramm zeigt, wie der eingehende Schaden und die Heilreduktion mit jeder gleichzeitigen Rückkehr eskalieren.</p>
+                        <div class="chart-container">
+                            <canvas id="heroicDebuffChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </main>
+        
+        <footer class="text-center mt-12 text-[#415A77]">
+            <p>Viel Erfolg bei der Bezwingung des Geisterbinders!</p>
+            <p class="text-xs mt-2">Infografik erstellt basierend auf dem Guide für Gara'jal. Weder Mermaid JS noch SVG wurden verwendet.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                }
+                return label;
+            };
+
+            const wrapLabel = (label) => {
+                const maxLength = 16;
+                if (label.length <= maxLength) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).length > maxLength) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine += (currentLine ? ' ' : '') + word;
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            };
+
+            const chartColors = {
+                background: 'rgba(65, 90, 119, 0.2)',
+                border: '#778DA9',
+                grid: 'rgba(120, 141, 169, 0.1)',
+                text: '#E0E1DD',
+                red: 'rgba(239, 68, 68, 0.8)',
+                blue: 'rgba(59, 130, 246, 0.8)',
+                purple: 'rgba(168, 85, 247, 0.8)',
+                amber: 'rgba(245, 158, 11, 0.8)'
+            };
+
+            new Chart(document.getElementById('dpsPriorityChart'), {
+                type: 'bar',
+                data: {
+                    labels: [wrapLabel('Geister- totem'), wrapLabel('Geisterwelt- Adds'), wrapLabel('Boss (<20%)'), wrapLabel('Boss (>20%)')],
+                    datasets: [{
+                        label: 'Priorität',
+                        data: [100, 80, 70, 40],
+                        backgroundColor: [chartColors.red, chartColors.amber, chartColors.purple, chartColors.blue],
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            grid: { color: chartColors.grid },
+                            ticks: { color: chartColors.text }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: chartColors.text }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } }
+                    }
+                }
+            });
+
+            new Chart(document.getElementById('heroicDebuffChart'), {
+                type: 'line',
+                data: {
+                    labels: ['0', '1', '2', '3', '4'],
+                    datasets: [{
+                        label: 'Heilreduktion (%)',
+                        data: [0, 10, 20, 30, 40],
+                        borderColor: chartColors.red,
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Eingehender Schaden',
+                        data: [0, 100, 220, 350, 500],
+                        borderColor: chartColors.amber,
+                        fill: false,
+                        tension: 0.1,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Gleichzeitige Rückkehrer', color: chartColors.text, font: {size: 10}},
+                            grid: { color: chartColors.grid },
+                            ticks: { color: chartColors.text }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: { display: true, text: 'Heilreduktion', color: chartColors.red, font: {size: 10}},
+                            ticks: { color: chartColors.red }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: { display: true, text: 'Schaden', color: chartColors.amber, font: {size: 10}},
+                            ticks: { color: chartColors.amber },
+                            grid: {
+                                drawOnChartArea: false, 
+                            },
+                        },
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: chartColors.text } },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
