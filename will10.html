@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografik: Der Wille des Kaisers (10-Spieler)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D1B2A;
+            color: #E0E1DD;
+        }
+        .card {
+            background-color: #1B263B;
+            border: 1px solid #415A77;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .header-icon {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+        .add-card {
+            background-color: #0D1B2A;
+            border: 1px solid #415A77;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            flex: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white mb-2">Der Wille des Kaisers</h1>
+            <p class="text-xl text-[#778DA9]">Ein visueller Guide zum finalen Kampf</p>
+        </header>
+
+        <main class="space-y-12">
+            
+            <article id="mechanics" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Die unerbittliche Armee</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Der letzte Kampf ist kein Duell, sondern ein Krieg gegen eine endlose Armee von Terrakottakriegern, während der Raum langsam mit Gas gefüllt wird. Add-Kontrolle ist der einzige Weg zum Sieg.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="add-card">
+                        <h3 class="font-bold text-lg text-amber-400">Wüter</h3>
+                        <div class="text-4xl my-2">😡</div>
+                        <p class="text-xs text-[#778DA9]">Standard-Adds, die vom Tank eingesammelt werden müssen.</p>
+                    </div>
+                    <div class="add-card">
+                        <h3 class="font-bold text-lg text-sky-400">Magier</h3>
+                        <div class="text-4xl my-2">🧙</div>
+                        <p class="text-xs text-[#778DA9]">Wirken Arkane Entladungen und müssen unterbrochen werden.</p>
+                    </div>
+                    <div class="add-card">
+                        <h3 class="font-bold text-lg text-red-400">Assassinen</h3>
+                        <div class="text-4xl my-2">🔪</div>
+                        <p class="text-xs text-[#778DA9]">Fixieren Spieler und müssen extrem schnell getötet werden.</p>
+                    </div>
+                </div>
+                 <p class="text-center text-sm text-[#778DA9] mt-6">Zusätzlich zu den Adds kämpft ihr gegen die beiden riesigen Golems **Jan-xi** und **Qin-xi**, die immer von einem Tank gebunden sein müssen.</p>
+            </article>
+
+            <article id="strategy" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Strategie & Prioritäten</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Schaden auf die Hauptbosse ist irrelevant, solange Adds aktiv sind. Disziplin bei der Zielwahl ist entscheidend.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4">DD-Prioritätenliste</h3>
+                        <p class="text-[#778DA9] mb-4">Die Tötungsreihenfolge der Adds ist nicht verhandelbar. Assassinen stellen die größte Bedrohung dar.</p>
+                        <div class="chart-container">
+                            <canvas id="dpsPriorityChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4">Aufgabenverteilung (10-Spieler)</h3>
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                                <h4 class="font-bold text-lg text-white">🛡️ Tanks</h4>
+                                <ul class="list-disc list-inside text-[#778DA9] text-sm mt-2 space-y-1">
+                                    <li>Jeder Tank schnappt sich einen der großen Golems und hält ihn.</li>
+                                    <li>**WICHTIG:** Die Golems dürfen niemals ohne Ziel sein, sonst folgt ein Raid-Wipe.</li>
+                                    <li>Sammelt alle **Wüter** ein, die erscheinen.</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                                <h4 class="font-bold text-lg text-white">❤️ Heiler</h4>
+                                <ul class="list-disc list-inside text-[#778DA9] text-sm mt-2 space-y-1">
+                                    <li>Der Schaden auf die Tanks ist konstant und hoch.</li>
+                                    <li>Der Schaden durch das **Titanengas** wird im Laufe des Kampfes immer stärker. Plant eure Cooldowns.</li>
+                                    <li>Seid bereit für Schadensspitzen, wenn ein Assassine sein Ziel erreicht.</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                                <h4 class="font-bold text-lg text-white">⚔️ DDs</h4>
+                                <ul class="list-disc list-inside text-[#778DA9] text-sm mt-2 space-y-1">
+                                    <li>Folgt strikt der Prioritätenliste: **Assassinen > Magier > Wüter**.</li>
+                                    <li>Unterbrecht die **Magier**, wann immer es möglich ist.</li>
+                                    <li>Schaden auf die Hauptbosse wird nur gemacht, wenn absolut keine Adds aktiv sind.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article id="enrage" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Der Soft-Enrage: Titanengas</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Der Raum füllt sich langsam mit Gas, das den erlittenen Schaden aller Spieler erhöht. Dies macht den Kampf zu einem Rennen gegen die Zeit.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="text-center">
+                        <h3 class="text-xl font-semibold text-white mb-2">Ansteigender Schaden</h3>
+                        <p class="text-[#778DA9] mb-4">Das Diagramm zeigt, wie der erlittene Schaden im Laufe des Kampfes eskaliert. Im heroischen Modus geschieht dies deutlich schneller.</p>
+                        <div class="chart-container">
+                            <canvas id="gasDamageChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                        <h3 class="font-bold text-lg text-white mb-2">Heroischer Modus: Zusätzliche Gefahren</h3>
+                        <ul class="space-y-3 text-sm text-[#778DA9]">
+                            <li><strong class="text-white">Stärke/Mut des Kaisers:</strong> Die Golems erhalten zufällige Buffs, die ihren Schaden oder ihr Tempo massiv erhöhen.</li>
+                            <li><strong class="text-white">Kombinierte Macht:</strong> Die Golems erhalten neue Fähigkeiten basierend auf den aktiven Adds (z.B. ein Schild, wenn Magier aktiv sind).</li>
+                        </ul>
+                        <p class="text-[#778DA9] mt-4">Dies macht die Add-Kontrolle im heroischen Modus noch wichtiger, da die Adds die Hauptbosse direkt verstärken.</p>
+                    </div>
+                </div>
+            </article>
+
+        </main>
+        
+        <footer class="text-center mt-12 text-[#415A77]">
+            <p>Viel Erfolg bei der Bezwingung des Willens des Kaisers!</p>
+            <p class="text-xs mt-2">Infografik erstellt basierend auf dem Guide für den Willen des Kaisers. Weder Mermaid JS noch SVG wurden verwendet.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                }
+                return label;
+            };
+
+            const wrapLabel = (label) => {
+                const maxLength = 16;
+                if (label.length <= maxLength) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).length > maxLength) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine += (currentLine ? ' ' : '') + word;
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            };
+
+            const chartColors = {
+                background: 'rgba(65, 90, 119, 0.2)',
+                border: '#778DA9',
+                grid: 'rgba(120, 141, 169, 0.1)',
+                text: '#E0E1DD',
+                red: 'rgba(239, 68, 68, 0.8)',
+                blue: 'rgba(59, 130, 246, 0.8)',
+                amber: 'rgba(245, 158, 11, 0.8)',
+                sky: 'rgba(56, 189, 248, 0.8)'
+            };
+
+            new Chart(document.getElementById('dpsPriorityChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Assassinen', 'Magier', 'Wüter', 'Bosse'],
+                    datasets: [{
+                        label: 'Priorität',
+                        data: [100, 80, 60, 10],
+                        backgroundColor: [chartColors.red, chartColors.sky, chartColors.amber, chartColors.blue],
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: { color: chartColors.grid },
+                            ticks: { color: chartColors.text }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: chartColors.text }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } }
+                    }
+                }
+            });
+
+            new Chart(document.getElementById('gasDamageChart'), {
+                type: 'line',
+                data: {
+                    labels: ['0s', '60s', '120s', '180s', '240s'],
+                    datasets: [{
+                        label: 'Erlittener Schaden (Normal)',
+                        data: [100, 110, 125, 145, 170],
+                        borderColor: chartColors.blue,
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.1
+                    }, {
+                        label: 'Erlittener Schaden (Heroisch)',
+                        data: [100, 120, 150, 190, 250],
+                        borderColor: chartColors.red,
+                        fill: false,
+                        tension: 0.1,
+                        borderDash: [5, 5]
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: { color: chartColors.grid },
+                            ticks: { color: chartColors.text }
+                        },
+                        y: {
+                            grid: { color: chartColors.grid },
+                            ticks: { color: chartColors.text },
+                            title: { display: true, text: 'Schadensmultiplikator in %', color: chartColors.text }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: chartColors.text } },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
