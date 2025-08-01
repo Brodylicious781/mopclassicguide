@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografik: Elegon (10-Spieler)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D1B2A;
+            color: #E0E1DD;
+        }
+        .card {
+            background-color: #1B263B;
+            border: 1px solid #415A77;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .header-icon {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+        .phase-card {
+            background-color: #0D1B2A;
+            border: 1px solid #415A77;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            flex: 1;
+        }
+        .phase-arrow {
+            color: #778DA9;
+            font-size: 2rem;
+            align-self: center;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white mb-2">Elegon</h1>
+            <p class="text-xl text-[#778DA9]">Ein visueller Guide zum Motor von Nalak'sha</p>
+        </header>
+
+        <main class="space-y-12">
+            
+            <article id="phases" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Der Zyklus des Kampfes</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Der Kampf gegen Elegon ist ein wiederkehrender Zyklus aus drei Phasen. Das Verständnis dieses Ablaufs ist der Schlüssel zum Sieg.</p>
+                
+                <div class="flex flex-col md:flex-row items-stretch justify-center gap-4 md:gap-8 text-center">
+                    <div class="phase-card">
+                        <h3 class="font-bold text-lg text-white">Phase 1: Boss-Phase</h3>
+                        <p class="text-sm text-[#778DA9]">Kampf gegen Elegon</p>
+                        <div class="text-4xl mt-2">🐉</div>
+                        <p class="text-xs text-[#778DA9] mt-2">Tanks wechseln, Adds töten, Atem ausweichen.</p>
+                    </div>
+                    <div class="phase-arrow hidden md:block">→</div>
+                     <div class="phase-arrow md:hidden mx-auto">↓</div>
+                    <div class="phase-card">
+                        <h3 class="font-bold text-lg text-white">Phase 2: Energiewirbel</h3>
+                        <p class="text-sm text-[#778DA9]">Bei 85% & 50%</p>
+                        <div class="text-4xl mt-2">⚡</div>
+                         <p class="text-xs text-[#778DA9] mt-2">Elegon ist immun. Zerstört die 6 Energieladungen an den Säulen.</p>
+                    </div>
+                    <div class="phase-arrow hidden md:block">→</div>
+                    <div class="phase-arrow md:hidden mx-auto">↓</div>
+                    <div class="phase-card">
+                        <h3 class="font-bold text-lg text-white">Phase 3: Verbrennung</h3>
+                        <p class="text-sm text-[#778DA9]">Nach dem Energiewirbel</p>
+                        <div class="text-4xl mt-2">💥</div>
+                         <p class="text-xs text-[#778DA9] mt-2">Elegon ist betäubt. Maximaler Schaden! Danach aus dem Ring laufen.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="phase1-strategy" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Strategie: Phase 1 (Boss-Phase)</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">In dieser Phase liegt der Fokus auf der Kontrolle von Elegon selbst und seinen Adds.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4">Prioritäten & Positionierung</h3>
+                        <ul class="space-y-3 text-sm text-[#778DA9]">
+                            <li><strong class="text-white">Tank-Position:</strong> Elegon parallel zum Rand des inneren Kreises ziehen, damit sein **Himmlischer Atem** ins Leere geht.</li>
+                            <li><strong class="text-white">Tank-Wechsel:</strong> Bei ca. 5-6 Stapeln des **Überladen**-Debuffs wechseln.</li>
+                            <li><strong class="text-white">DD-Priorität:</strong> **Energetische Funken** haben absolute Priorität. Tötet sie, bevor sie den Boss erreichen.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4">DD-Schadensverteilung</h3>
+                        <p class="text-[#778DA9] mb-4">Der Schaden auf die Funken ist wichtiger als der Schaden auf den Boss, um Raid-Schaden zu vermeiden.</p>
+                        <div class="chart-container">
+                            <canvas id="dpsPriorityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article id="phase2-strategy" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Strategie: Phase 2 & 3 (Energiewirbel & Verbrennung)</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Diese Phasen sind ein Rennen gegen die Zeit und eine Chance für massiven Schaden.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                     <div>
+                        <h3 class="text-xl font-semibold text-white mb-4">Phase 2: Energiewirbel</h3>
+                        <p class="text-[#778DA9] mb-4">Der Raid teilt sich auf, um die 6 **Energieladungen** an den Säulen so schnell wie möglich zu zerstören. Im 10er-Modus kann jeder DD einer Säule zugewiesen werden, mit Unterstützung von Heilern oder Tanks.</p>
+                        <h3 class="text-xl font-semibold text-white mb-4 mt-6">Phase 3: Verbrennung</h3>
+                        <p class="text-[#778DA9] mb-4">Elegon ist für kurze Zeit betäubt und erleidet 100% mehr Schaden. Zündet Heldentum/Kampfrausch und alle Cooldowns! Lauft am Ende der Phase aus dem inneren Ring, bevor er explodiert.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4">Schadenspotenzial</h3>
+                        <p class="text-[#778DA9] mb-4">Die Verbrennungsphase ist die beste Gelegenheit, Elegons Gesundheit drastisch zu reduzieren.</p>
+                        <div class="chart-container">
+                            <canvas id="damagePotentialChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article id="heroic" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Heroischer Modus: Zusätzliche Gefahren</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Im heroischen Modus wird der Kampf durch neue Adds und tödliche Bodeneffekte deutlich komplexer.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+                    <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                        <h3 class="font-bold text-lg text-white mb-2">Kosmischer Funke</h3>
+                        <p class="text-6xl">✨</p>
+                        <p class="text-[#778DA9] text-sm mt-2">Ein großes Add, das vom Off-Tank getankt werden muss. Es verursacht Raid-Schaden und muss schnell sterben.</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                        <h3 class="font-bold text-lg text-white mb-2">Tödlicher Boden</h3>
+                        <p class="text-6xl">💥</p>
+                        <p class="text-[#778DA9] text-sm mt-2">In der Säulen-Phase werden zufällige Bodenplatten außerhalb des Rings tödlich, was die Bewegung stark einschränkt.</p>
+                    </div>
+                </div>
+            </article>
+
+        </main>
+        
+        <footer class="text-center mt-12 text-[#415A77]">
+            <p>Viel Erfolg bei der Bezwingung des Himmelsdrachen!</p>
+            <p class="text-xs mt-2">Infografik erstellt basierend auf dem Guide für Elegon. Weder Mermaid JS noch SVG wurden verwendet.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                }
+                return label;
+            };
+
+            const wrapLabel = (label) => {
+                const maxLength = 16;
+                if (label.length <= maxLength) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).length > maxLength) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine += (currentLine ? ' ' : '') + word;
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            };
+
+            const chartColors = {
+                background: 'rgba(65, 90, 119, 0.2)',
+                border: '#778DA9',
+                grid: 'rgba(120, 141, 169, 0.1)',
+                text: '#E0E1DD',
+                red: 'rgba(239, 68, 68, 0.8)',
+                blue: 'rgba(59, 130, 246, 0.8)',
+                amber: 'rgba(245, 158, 11, 0.8)'
+            };
+
+            new Chart(document.getElementById('dpsPriorityChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Energetische Funken', 'Elegon'],
+                    datasets: [{
+                        data: [60, 40],
+                        backgroundColor: [chartColors.amber, chartColors.blue],
+                        borderColor: '#1B263B',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: chartColors.text } },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } }
+                    }
+                }
+            });
+
+            new Chart(document.getElementById('damagePotentialChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Schadensphasen'],
+                    datasets: [{
+                        label: 'Normaler Schaden',
+                        data: [100],
+                        backgroundColor: chartColors.blue,
+                    }, {
+                        label: 'Verbrennungs-Schaden',
+                        data: [200],
+                        backgroundColor: chartColors.red,
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: chartColors.text }
+                        },
+                        y: {
+                            grid: { color: chartColors.grid },
+                            ticks: { color: chartColors.text },
+                            title: { display: true, text: 'Schaden in %', color: chartColors.text }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: chartColors.text } },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
