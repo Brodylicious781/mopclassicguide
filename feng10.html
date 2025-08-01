@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografik: Feng der Verfluchte (10-Spieler)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D1B2A;
+            color: #E0E1DD;
+        }
+        .card {
+            background-color: #1B263B;
+            border: 1px solid #415A77;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .header-icon {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+        .phase-card {
+            background-color: #0D1B2A;
+            border: 1px solid #415A77;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            flex: 1;
+        }
+        .phase-arrow {
+            color: #778DA9;
+            font-size: 2rem;
+            align-self: center;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white mb-2">Feng der Verfluchte (10-Spieler)</h1>
+            <p class="text-xl text-[#778DA9]">Ein visueller Guide zu Phasen, Fähigkeiten & Taktik</p>
+        </header>
+
+        <main class="space-y-12">
+            
+            <article id="phases" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Die drei Phasen des Kampfes</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Feng wechselt bei 66% und 33% seiner Gesundheit die Phase und erhält dabei völlig neue Fähigkeiten. Jede Phase erfordert eine Anpassung der Strategie.</p>
+                
+                <div class="flex flex-col md:flex-row items-stretch justify-center gap-4 md:gap-8 text-center">
+                    <div class="phase-card">
+                        <h3 class="font-bold text-lg text-white">Phase 1: Faust-Essenz</h3>
+                        <p class="text-sm text-[#778DA9]">100% - 66%</p>
+                        <div class="text-4xl mt-2">👊</div>
+                        <p class="text-xs text-[#778DA9] mt-2">Fokus auf Positionierung und Ausweichen von Frontalangriffen.</p>
+                    </div>
+                    <div class="phase-arrow hidden md:block">→</div>
+                     <div class="phase-arrow md:hidden mx-auto">↓</div>
+                    <div class="phase-card">
+                        <h3 class="font-bold text-lg text-white">Phase 2: Speer-Essenz</h3>
+                        <p class="text-sm text-[#778DA9]">66% - 33%</p>
+                        <div class="text-4xl mt-2">🔥</div>
+                         <p class="text-xs text-[#778DA9] mt-2">Fokus auf Bewegung und Ausweichen von Flächeneffekten.</p>
+                    </div>
+                    <div class="phase-arrow hidden md:block">→</div>
+                    <div class="phase-arrow md:hidden mx-auto">↓</div>
+                    <div class="phase-card">
+                        <h3 class="font-bold text-lg text-white">Phase 3: Schild-Essenz</h3>
+                        <p class="text-sm text-[#778DA9]">33% - 0%</p>
+                        <div class="text-4xl mt-2">🛡️</div>
+                         <p class="text-xs text-[#778DA9] mt-2">Fokus auf Raid-Heilung und das Entfernen von arkanen Zonen.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="abilities" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Kernfähigkeiten pro Phase</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Jede Phase hat ihre eigenen, tödlichen Fähigkeiten, die eine spezifische Reaktion erfordern.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                        <h3 class="font-bold text-lg text-white mb-2">Phase 1: Faust</h3>
+                        <ul class="space-y-2">
+                            <li><strong class="text-amber-400">Blitzpeitsche:</strong> Frontaler Kegelangriff. NIEMALS vor dem Boss stehen.</li>
+                            <li><strong class="text-amber-400">Epizentrum:</strong> Flächenschaden um den Boss. Schnell weglaufen.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                        <h3 class="font-bold text-lg text-white mb-2">Phase 2: Speer</h3>
+                         <ul class="space-y-2">
+                            <li><strong class="text-red-400">Flammender Speer:</strong> Erzeugt eine lange Feuerlinie. Aus der Bahn gehen.</li>
+                            <li><strong class="text-red-400">Funken des Feuers:</strong> Erzeugt Feuerflächen auf dem Boden. Nicht darin stehen.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                        <h3 class="font-bold text-lg text-white mb-2">Phase 3: Schild</h3>
+                         <ul class="space-y-2">
+                            <li><strong class="text-sky-400">Arkane Resonanz:</strong> Zieht Spieler an und schädigt sie. Muss entfernt werden.</li>
+                            <li><strong class="text-sky-400">Arkaner Schock:</strong> Hoher, unvermeidbarer Raid-Schaden.</li>
+                            <li><strong class="text-sky-400">Umkehrender Zug:</strong> Debuff, der es einem Spieler erlaubt, eine Arkane Resonanz zu entfernen.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article id="strategy" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Strategie & Aufgaben (10-Spieler)</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Im 10-Spieler-Modus ist die persönliche Verantwortung höher. Jeder Fehler bei der Positionierung hat größere Auswirkungen.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4">Schadensanalyse</h3>
+                        <p class="text-[#778DA9] mb-4">Der Großteil des Schadens in diesem Kampf ist durch korrekte Bewegung und Positionierung vermeidbar. Der Rest ist die Aufgabe der Heiler.</p>
+                        <div class="chart-container">
+                            <canvas id="damageAnalysisChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4">Aufgabenverteilung</h3>
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                                <h4 class="font-bold text-lg text-white">🛡️ Tank</h4>
+                                <ul class="list-disc list-inside text-[#778DA9] text-sm mt-2 space-y-1">
+                                    <li>Positioniere Feng immer seitlich zum Raid (wegen Blitzpeitsche).</li>
+                                    <li>Bewege den Boss aus den Feuerflächen in Phase 2.</li>
+                                    <li>Nutze defensive Cooldowns für den hohen Schaden in Phase 3.</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                                <h4 class="font-bold text-lg text-white">❤️ Heiler</h4>
+                                <ul class="list-disc list-inside text-[#778DA9] text-sm mt-2 space-y-1">
+                                    <li>Der Schaden ist in Phase 1 & 2 moderat, wenn alle ausweichen.</li>
+                                    <li>Bereitet euch auf hohen, konstanten Raid-Schaden durch **Arkaner Schock** in Phase 3 vor.</li>
+                                    <li>Der Spieler mit **Umkehrender Zug** benötigt eventuell extra Heilung.</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                                <h4 class="font-bold text-lg text-white">⚔️ DDs</h4>
+                                <ul class="list-disc list-inside text-[#778DA9] text-sm mt-2 space-y-1">
+                                    <li>Steht **immer** an der Seite oder hinter dem Boss.</li>
+                                    <li>Bewegung ist alles: Weicht Feuerlinien, -flächen und Epizentrum aus.</li>
+                                    <li>Der Spieler mit **Umkehrender Zug** muss schnell reagieren und in eine **Arkane Resonanz** laufen.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article id="heroic" class="card rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-4">Heroischer Modus: Neue Gefahren</h2>
+                <p class="text-[#778DA9] mb-6 max-w-3xl">Im heroischen Modus fügt Feng jeder Phase eine neue, tödliche Fähigkeit hinzu, die eine schnelle und koordinierte Reaktion erfordert.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                        <h3 class="font-bold text-lg text-white mb-2">P1: Erschütternder Stampfer</h3>
+                        <p class="text-6xl">뭉치다</p>
+                        <p class="text-[#778DA9] text-sm mt-2">Raid muss eng zusammenlaufen, um den physischen Schaden zu teilen.</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                        <h3 class="font-bold text-lg text-white mb-2">P2: Wildfunke</h3>
+                        <p class="text-6xl">🏃‍♂️</p>
+                        <p class="text-[#778DA9] text-sm mt-2">Ein Add fixiert einen Spieler. Es muss verlangsamt, betäubt und schnell getötet werden.</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-[#0D1B2A]">
+                        <h3 class="font-bold text-lg text-white mb-2">P3: Arkane Geschwindigkeit</h3>
+                        <div class="chart-container h-40">
+                            <canvas id="tankDamageChart"></canvas>
+                        </div>
+                        <p class="text-[#778DA9] text-sm mt-2">Fengs Angriffstempo erhöht sich mit jedem **Arkaner Schock**, was zu massivem Tank-Schaden führt.</p>
+                    </div>
+                </div>
+            </article>
+
+        </main>
+        
+        <footer class="text-center mt-12 text-[#415A77]">
+            <p>Viel Erfolg bei der Bezwingung des Verfluchten!</p>
+            <p class="text-xs mt-2">Infografik erstellt basierend auf dem Guide für Feng. Weder Mermaid JS noch SVG wurden verwendet.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                }
+                return label;
+            };
+
+            const wrapLabel = (label) => {
+                const maxLength = 16;
+                if (label.length <= maxLength) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).length > maxLength) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine += (currentLine ? ' ' : '') + word;
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            };
+
+            const chartColors = {
+                background: 'rgba(65, 90, 119, 0.2)',
+                border: '#778DA9',
+                grid: 'rgba(120, 141, 169, 0.1)',
+                text: '#E0E1DD',
+                red: 'rgba(239, 68, 68, 0.8)',
+                blue: 'rgba(59, 130, 246, 0.8)',
+                green: 'rgba(16, 185, 129, 0.8)',
+            };
+
+            new Chart(document.getElementById('damageAnalysisChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Schadensquellen'],
+                    datasets: [
+                        { label: 'Vermeidbarer Schaden (Bewegung)', data: [70], backgroundColor: chartColors.blue },
+                        { label: 'Unvermeidbarer Schaden (Heilung)', data: [30], backgroundColor: chartColors.red }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: { stacked: true, grid: { display: false }, ticks: { display: false } },
+                        y: { stacked: true, grid: { display: false }, ticks: { display: false } }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: chartColors.text } },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } }
+                    }
+                }
+            });
+
+            new Chart(document.getElementById('tankDamageChart'), {
+                type: 'line',
+                data: {
+                    labels: ['0', '1', '2', '3', '4'],
+                    datasets: [{
+                        label: 'Tank-Schaden',
+                        data: [100, 120, 150, 190, 250],
+                        borderColor: chartColors.red,
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Arkaner Schock Stacks', color: chartColors.text, font: {size: 10}},
+                            grid: { display: false },
+                            ticks: { color: chartColors.text }
+                        },
+                        y: {
+                            display: false,
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
